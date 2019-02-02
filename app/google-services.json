@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "140389304728",
+    "firebase_url": "https://hackit-7807b.firebaseio.com",
+    "project_id": "hackit-7807b",
+    "storage_bucket": "hackit-7807b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140389304728:android:0f85b7acf9a82193",
+        "android_client_info": {
+          "package_name": "com.example.hackit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140389304728-jf02fp91olsmgkebvbivofaicbngi780.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hackit",
+            "certificate_hash": "3244c5f6ca937df5946b7e29a37f5371c4312d78"
+          }
+        },
+        {
+          "client_id": "140389304728-u38t6agjsts466tjqdq4mv7k809ckgkh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiASBeTyOajSmv74CaVeZnMmO59dDNmk0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140389304728-u38t6agjsts466tjqdq4mv7k809ckgkh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".First">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="INCOME"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/incomesrc"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:hint="Source of Income"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/incomeamt"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:hint="Amount"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/incomesrc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="93dp" />
+
+    <Button
+        android:id="@+id/incomesub"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:text="Submit"
+        app:layout_constraintEnd_toEndOf="@+id/incomeamt"
+        app:layout_constraintStart_toStartOf="@+id/incomeamt"
+        app:layout_constraintTop_toBottomOf="@+id/incomeamt" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="EXPENDITURE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incomesub" />
+
+    <EditText
+        android:id="@+id/expendituresrc"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:hint="Cause of Expenditure"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/expenditureamt"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:inputType="number"
+        android:hint="Amount"
+        app:layout_constraintEnd_toEndOf="@+id/expendituresrc"
+        app:layout_constraintStart_toStartOf="@+id/expendituresrc"
+        app:layout_constraintTop_toBottomOf="@+id/expendituresrc" />
+
+    <Button
+        android:id="@+id/expendituresub"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:text="Submit"
+        app:layout_constraintEnd_toEndOf="@+id/expenditureamt"
+        app:layout_constraintStart_toStartOf="@+id/expenditureamt"
+        app:layout_constraintTop_toBottomOf="@+id/expenditureamt" />
+
+
+    <Button
+        android:id="@+id/checkanalysis"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="64dp"
+        android:text="Check Analysis"
+        app:layout_constraintEnd_toEndOf="@+id/expendituresub"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/expendituresub"
+        app:layout_constraintTop_toBottomOf="@+id/expendituresub" />
+
+
+</android.support.constraint.ConstraintLayout>
