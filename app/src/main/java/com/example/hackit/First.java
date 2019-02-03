@@ -1,7 +1,12 @@
 package com.example.hackit;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,52 +39,109 @@ import java.util.List;
 public class First extends AppCompatActivity {
 
     int size;
+    String amtstr = null;
     int sumincome = 0;
+    int total=0,amt=0,bal=0;
+    int amt1=0,tot = 0,exp=0,inc1=0;
+    String income_amt = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
-
+        final TextView income = findViewById(R.id.income);
+        final TextView expense = findViewById(R.id.expenditure);
+        final TextView balance = findViewById(R.id.balance);
         Button analysis = findViewById(R.id.checkanalysis);
         analysis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(First.this, MainActivity.class);
                 startActivity(intent);
+
             }
         });
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("message"));
 
         Button incomesub = findViewById(R.id.incomesub);
         incomesub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText e1 = findViewById(R.id.incomesrc);
-                final String income_src = e1.getText().toString();
+//                EditText e1 = findViewById(R.id.incomesrc);
+//                final String income_src = e1.getText().toString();
                 EditText e2 = findViewById(R.id.incomeamt);
-                final String income_amt = e2.getText().toString();
+                income_amt = e2.getText().toString();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
+                String format = simpleDateFormat.format(new Date());
                 final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("/Income/");
-//                ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-//                            String inc = dataSnapshot1.child("Amount").getValue().toString();
-//                            sumincome += Float.parseFloat(inc);
-//                            TextView income = findViewById(R.id.income);
-//                            income.setText("Rs " + sumincome);
-//                        }
-//                    }
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-                ref.child("Income Source").setValue(income_src);
-                ref.child("Amount").setValue(income_amt);
+                ref.child(format).setValue(income_amt);
+                Intent intent= new Intent("message");
+                intent.putExtra("inc",income_amt);
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                Toast.makeText(getApplicationContext(),"Income added Rs."+ income_amt,
+                        Toast.LENGTH_LONG).show();
+                income.setText(""+(amt+Integer.parseInt(income_amt)));
+
+            }
+        });
+        final DatabaseReference ref0 = FirebaseDatabase.getInstance().getReference("/Income/");
+        ref0.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren())
+                {
+                    Log.d("oops",""+childSnapshot.getValue());
+                    amt += Integer.parseInt(childSnapshot.getValue().toString());
+                    Log.d("First", amt+"amount");
+                    String amtstr = String.valueOf(amt);
+                    Intent intent= new Intent("message");
+                    intent.putExtra("amt",amtstr);
+
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                }
+                income.setText(""+ amt);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
-        Button expendituresub = findViewById(R.id.expendituresub);
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("/Expenditure/");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                               @Override
+                                               public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                   for (DataSnapshot childSnapshot : dataSnapshot.getChildren())
+                                                   {
+                                                       int amount=0;
+                                                       for (DataSnapshot childSnapshot1 : childSnapshot.getChildren())
+                                                       {
+                                                           Log.d("HELLO",""+childSnapshot1.getValue());
+                                                           amount+= Integer.parseInt(childSnapshot1.getValue().toString());
+
+                                                       }
+                                                       total+=amount;
+                                                   }
+                                                Log.d("First",total+"hi");
+                                                   expense.setText(""+total);
+                                                   Log.d("First",amt +"ouuuu" + total);
+                                                   String totstr = String.valueOf(total);
+                                                   Intent intent= new Intent("message");
+                                                   intent.putExtra("total",totstr);
+                                                   LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                                                   //bal = amt - total;
+                                                   //balance.setText(""+bal);
+                                               }
+                                               @Override
+                                               public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                               }
+
+                                           });
+
+
+                Button expendituresub = findViewById(R.id.expendituresub);
         expendituresub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,10 +150,8 @@ public class First extends AppCompatActivity {
                 String expenditure_src = e3.getText().toString();
                 EditText e4 = findViewById(R.id.expenditureamt);
                 String expenditure_amt = e4.getText().toString();
-//                int sumexpenditure = 0;
-//                sumexpenditure += Float.parseFloat(expenditure_amt);
-//                TextView income = findViewById(R.id.expenditure);
-//                income.setText("Rs " + sumexpenditure);
+
+
                 List<String[]> csvContent = readCVSFromAssetFolder();
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
                 String format = simpleDateFormat.format(new Date());
@@ -111,7 +177,18 @@ public class First extends AppCompatActivity {
 
                     }
                 });
+
                 ref.child(format).setValue(expenditure_amt);
+                Toast.makeText(getApplicationContext(),"Money spent Rs."+ expenditure_amt,
+                        Toast.LENGTH_LONG).show();
+                        Log.d("First",total+"hi");
+                        expense.setText(""+(total+Integer.parseInt(expenditure_amt)));
+                        String totstr = String.valueOf(total);
+                        Intent intent= new Intent("message");
+                        intent.putExtra("total",totstr);
+                        intent.putExtra("exp",expenditure_amt);
+                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+
             }
         });
 
@@ -133,4 +210,25 @@ public class First extends AppCompatActivity {
         }
         return csvLine;
     }
+    public BroadcastReceiver mMessageReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int balance;
+            if(intent.getStringExtra("amt") != null) {
+                amt1 = Integer.parseInt(intent.getStringExtra("amt"));
+            }
+            if(intent.getStringExtra("total") !=null){tot = Integer.parseInt(intent.getStringExtra("total"));}
+            balance = amt1 - tot;
+            if(intent.getStringExtra("exp")!=null) {
+                exp = Integer.parseInt(intent.getStringExtra("exp"));
+                balance = amt1 - tot - exp;
+            }
+            if(intent.getStringExtra("inc") != null){
+                inc1=Integer.parseInt(intent.getStringExtra("inc"));
+                balance = amt1 - tot + inc1;
+            }
+            TextView bal= findViewById(R.id.balance);
+            bal.setText(""+ balance);
+        }
+    };
 }

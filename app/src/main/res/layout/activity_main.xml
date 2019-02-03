@@ -5,12 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-
-   <android.support.v4.view.ViewPager
-       android:id="@+id/viewpager"
+    <com.github.mikephil.charting.charts.PieChart
+       android:id="@+id/piechart"
        android:layout_width="match_parent"
-       android:layout_height="match_parent">
-   </android.support.v4.view.ViewPager>
+       android:layout_height="300dp"/>
+    <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/piechart"
+        android:visibility="visible" />
 
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/graph"
+        android:layout_below="@+id/chart"/>
+
+</RelativeLayout>
 </android.support.constraint.ConstraintLayout>
